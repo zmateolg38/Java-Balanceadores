@@ -1,0 +1,87 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Tarea {
+    
+    public static void main(String arg[]) {
+    
+        // Creamos un objeto Scanner para leer la entrada del usuario desde la consola
+        Scanner scanner = new Scanner(System.in); 
+
+        // Le pedimos al usuario que ingrese una cadena que queremos verificar si tiene parÃ©ntesis bien balanceados
+        System.out.print("Ingrese una cadena que contenga ()[]{}: ");
+        String entrada = scanner.next();
+
+        // Creamos un objeto Stack para almacenar los parentesis de la entrada en orden
+        //Al momento de especificar <Character> describe que la pila almacenara caracteres
+        //Que en este caso son los parentesis
+        Stack<Character> pilaParentesis = new Stack<>();
+
+        // Iteramos a atraves de cada caracter en la cadena de entrada
+        //Se utiliza el ciclo for para iterar sobre cada caracter que almacena la cadena entrada
+        //La expresion entrada.length, devuelve el tamaÃ±o de la cadena, que en este caso es entrada.
+        //Si la condicion i es menor al tamaño de la entrada indica que el bucle debe continuar
+        //mientras que el indice i sea menor a la longitud de la cadena
+      
+        for (int i = 0; i < entrada.length(); i++) {
+            char caracter = entrada.charAt(i); //Se utiliza el metodo charAt para obtener el caracter de la cadena
+                                                   //que se encuentra en la posicion i
+
+            // Si el carÃ¡cter es un parÃ©ntesis   abierto, lo agregamos a la pila
+            if (caracter == '(' || caracter == '[' || caracter == '{') { //Este verifica si los caracteres de entrada son iguales
+                pilaParentesis.push(caracter);                      //a uno de los tres tipos de aperturas que se consideran en el
+                                                                        //Algoritmo, es decir ([{
+                                                                       
+            }
+            // Si el carÃ¡cter es un parentesis cerrado, verificamos si la pila esta vacia
+            // Si la pila esta¡ vacia, significa que hay un parentesis sin cerrar en la entrada
+            // Si la pila no esta vacia, verificamos si el parenntesis de la cima de la pila
+            // coincide con el parentesis cerrado actual. Si coinciden, eliminamos el parentesis de la pila.
+            // Si no coinciden, significa que hay un error en la entrada
+            
+            
+            //Es decir, este fragmento de codigo se encarga de detectar el caso en que hay mas parÃ©ntesis cerrados que abiertos
+            //, lo que indica una estructura de parenntesis incorrecta en la cadena de entrada.
+            else if (caracter == ')' || caracter == ']' || caracter == '}') {
+                if (pilaParentesis.isEmpty()) {
+                    System.out.println("Error: hay un parentesis cerrado sin su parentesis abierto correspondiente.");
+                    return;
+                }
+                
+                // En resumen, este fragmento de codiggo se encarga de verificar si los parenntesis de cierre corresponden al tipo de parÃ©ntesis 
+                //de apertura que se agrega por ultimma vez a la pila.
+                //Si no coinciden, se muestra un mensaje de error indicando que los pare©ntesis no esta¡n balanceados.
+                char ultimoParentesis = pilaParentesis.pop();
+                if ((ultimoParentesis == '(' && caracter != ')') || 
+                    (ultimoParentesis == '[' && caracter != ']') || 
+                    (ultimoParentesis == '{' && caracter != '}')) {
+                    System.out.println("Error: los parentesis no estan  balanceados.");
+                    return;
+                }
+            }
+        }
+
+        // Al final de la iteracionn, verificamos si quedaron parenntesis sin cerrar en la pila
+        // Si la pila no estÃ¡ vacia, significa que hay un paretesis sin cerrar en la entrada
+        if (!pilaParentesis.isEmpty()) {
+            System.out.println("Error: hay un parentesis abierto sin su parentesis cerrado correspondiente.");
+            return;
+        }
+
+        // Si llegamos hasta aqui, la entrada esta¡ bien balanceada
+        System.out.println("La cadena tiene los parentesis  balanceados.");
+    }
+}
+
+
+////este algoritmo funciona verificando si una cadena que contiene diferentes tipos de parÃ©ntesis,
+//como (), {}, [], tiene la cantidad correcta de parÃ©ntesis abiertos y cerrados. 
+//Para hacer esto, utiliza una pila (Stack) en la que se insertan los parÃ©ntesis abiertos 
+//y se eliminan los parÃ©ntesis cerrados. Si la pila estÃ¡ vacias despues de procesar toda la cadena,
+//significa que todos los parÃ©ntesis se han cerrado correctamente, y por lo tanto
+// la cadena es vÃ¡lida. En caso contrario, la cadena es invalida.
+
+//El algoritmo utiliza un bucle while para procesar cada carÃ¡cter de la cadena, y dentro del bucle
+//, se utilizan estructuras condicionales if-else para determinar si un carÃ¡cter 
+//es un parÃ©ntesis abierto o cerrado. Si el carÃ¡cter es un parentesis abierto, 
+//se inserta en la pila, y si es un parÃ©ntesis cerrado, se elimina el parentesis correspondiente de la pila. Al final del bucle, se verifica si la pila esta vacÃ­a, y si lo estÃ¡, se muestra un mensaje indicando que la cadena es vÃ¡lida.
